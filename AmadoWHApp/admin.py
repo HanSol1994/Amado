@@ -200,113 +200,7 @@ class ACPFilter(admin.SimpleListFilter):
         else:
             return queryset.filter()    
         
-class GolestanFilter(admin.SimpleListFilter):
-    title = ('قابل فروش')
-    parameter_name = 'sale'
 
-    def lookups(self, request, model_admin):
-        role = request.user.groups.all()[0].name
-
-        return (
-            ('yes', 'بله'),
-            ('no','خیر')
-        )
-
-    def queryset(self, request, queryset):
-
-        if self.value() == 'yes':
-            return queryset.filter(Q(id=455)|(Q(product_is_active=True)&(Q(id__in=[125,100,215,216,221,222,223,224,23,24,25,26,260,27,31,33,35,36,42,47,51,52,57,58,30,59,232,179,233,102,246
-,	126
-,	127
-,	128
-,	132
-,	132
-,	134
-,	138
-,	140
-,	141
-,	143
-,	144
-,	147
-,	148
-,	149
-,	150
-,	151
-,	152
-,	153
-,	154
-,	155
-,	177
-,	180
-,	182
-,	185
-,	206
-,	207
-,	231
-,	234
-,	240
-,	242
-,	250
-,	257
-,	258
-,	266
-,	28
-,	29
-,	395
-,	396
-,	62
-,	7
-,	129
-]))))    
-
-        elif self.value() == 'no':
-            return queryset.exclude(Q(id=455)|(Q(product_is_active=True)&(Q(id__in=[125,100,215,216,221,222,223,224,23,24,25,26,260,27,31,33,35,36,42,47,51,52,57,58,30,59,232,179,233,102,246
-,	126
-,	127
-,	128
-,	132
-,	132
-,	134
-,	138
-,	140
-,	141
-,	143
-,	144
-,	147
-,	148
-,	149
-,	150
-,	151
-,	152
-,	153
-,	154
-,	155
-,	177
-,	180
-,	182
-,	185
-,	206
-,	207
-,	231
-,	234
-,	240
-,	242
-,	250
-,	257
-,	258
-,	266
-,	28
-,	29
-,	395
-,	396
-,	62
-,	7
-,	129
-]))))    
-
-        else:
-            return queryset.filter()            
-    
     
     
 
@@ -324,7 +218,7 @@ class ProductAdmin (admin.ModelAdmin):
 
  inlines = [PriceInline,Recipe12Inline,Recipe23Inline,UnitToUnitInline] 
 
- list_filter = [GolestanFilter,ACPFilter,'product_level','product_is_active','product_branch_warehouse']
+ list_filter = ['branch_access',ACPFilter,'product_level','product_is_active','product_branch_warehouse']
 
  def action(self,request,queryset):
      for q in queryset:
@@ -358,7 +252,7 @@ class ProductAdmin (admin.ModelAdmin):
 
      return list(['product_name','product_supplier','product_category','product_unit','product_second_unit','product_unit_ratio','product_warehouse','current_price','previous_price',
        'price_change_date','product_description','product_weekly_consumption','product_is_active',
-       'product_level','product_payment_is_check','product_payment_check_days','report_index','product_actual_price_1','product_actual_price_2','product_branch_warehouse','sale_percentage'])
+       'product_level','product_payment_is_check','product_payment_check_days','report_index','product_actual_price_1','product_actual_price_2','product_branch_warehouse','sale_percentage','branch_access'])
 
  def warehouse_product_finish_date(self, obj):
      d = jdatetime.datetime.today().strftime("%Y-%m-%d")
@@ -381,93 +275,9 @@ class ProductAdmin (admin.ModelAdmin):
         return qs     
      if role == 'manager':
             if request.user.has_perm('AmadoWHApp.other_branch_poonak'):
-                return qs.filter(Q(product_is_active=True)&(Q(id__in=[125,232,179,233
-,	126
-,	127
-,	128
-,	132
-,	132
-,	134
-,	138
-,	140
-,	141
-,	143
-,	144
-,	147
-,	148
-,	149
-,	150
-,	151
-,	152
-,	153
-,	154
-,	155
-,	177
-,	180
-,	182
-,	185
-,	206
-,	207
-,	231
-,	234
-,	240
-,	242
-,	250
-,	257
-,	258
-,	266
-,	28
-,	29
-,	395
-,	396
-,	62
-,	7
-,	129
-])))
+                return qs.filter(id=-1)
             if request.user.has_perm('AmadoWHApp.other_branch'):
-                return qs.filter(Q(id=455)|(Q(product_is_active=True)&(Q(id__in=[125,100,215,216,221,222,223,224,23,24,25,26,260,27,31,33,35,36,42,47,51,52,57,58,30,59,232,179,233,102,246
-,	126
-,	127
-,	128
-,	132
-,	132
-,	134
-,	138
-,	140
-,	141
-,	143
-,	144
-,	147
-,	148
-,	149
-,	150
-,	151
-,	152
-,	153
-,	154
-,	155
-,	177
-,	180
-,	182
-,	185
-,	206
-,	207
-,	231
-,	234
-,	240
-,	242
-,	250
-,	257
-,	258
-,	266
-,	28
-,	29
-,	395
-,	396
-,	62
-,	7
-,	129
-]))))
+                return qs.filter(Q(product_is_active=True)&Q(branch_access__id=6))
             if request.user.has_perm('AmadoWHApp.can_see_special_products'):
                 return qs.filter(Q(product_is_active=True)&(Q(product_level='lvl2')|Q(product_level='lvl1-2')))
             else:

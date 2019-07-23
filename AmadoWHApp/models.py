@@ -172,6 +172,8 @@ class Product (models.Model):
     # unit_ratio = models.FloatField(default=1,verbose_name="واحد ۱ دارای این مقدار از واحد ۲ است")
     
     sale_percentage = models.FloatField(verbose_name='درصد برای قیمت فروش',default=15)
+    
+    branch_access = models.ManyToManyField(Branch,verbose_name='دسترسی شعب')
 
     
     
