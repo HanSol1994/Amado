@@ -1,0 +1,289 @@
+{% extends "admin/base_site.html" %}
+{% load i18n admin_urls static admin_list %}
+
+{% block extrastyle %}
+  {{ block.super }}
+  <link rel="stylesheet" type="text/css" href="{% static "admin/css/changelists.css" %}" />
+  {% if cl.formset %}
+    <link rel="stylesheet" type="text/css" href="{% static "admin/css/forms.css" %}" />
+  {% endif %}
+  {% if cl.formset or action_form %}
+    <script type="text/javascript" src="{% url 'admin:jsi18n' %}"></script>
+  {% endif %}
+  {{ media.css }}
+  {% if not actions_on_top and not actions_on_bottom %}
+    <style>
+      #changelist table thead th:first-child {width: inherit}
+    </style>
+  {% endif %}
+{% endblock %}
+
+{% block breadcrumbs %}<div class="breadcrumbs">
+    <a href="/admin/">شروع</a>
+</div>
+{% endblock %}
+
+{% block extrahead %}
+{{ block.super }}
+{{ media.js }}
+
+    <script type="text/javascript" src="/AmadoWHApp/static/admin/jquery.ui.datepicker.jalali/scripts/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="/AmadoWHApp/static/admin/jquery.ui.datepicker.jalali/scripts/jquery.ui.core.js"></script>
+    <script type="text/javascript" src="/AmadoWHApp/static/admin/jquery.ui.datepicker.jalali/scripts/jquery.ui.datepicker-cc.js"></script>
+    <script type="text/javascript" src="/AmadoWHApp/static/admin/jquery.ui.datepicker.jalali/scripts/calendar.js"></script>
+    <script type="text/javascript" src="/AmadoWHApp/static/admin/jquery.ui.datepicker.jalali/scripts/jquery.ui.datepicker-cc-fa.js"></script>
+    <link href="/AmadoWHApp/static/admin/jquery.ui.datepicker.jalali/themes/base/jquery-ui.min.css" type="text/css" media="all" rel="stylesheet" />
+    <link href="/AmadoWHApp/static/admin/css/main.css" type="text/css" media="all" rel="stylesheet" />
+    <link href="/AmadoWHApp/static/admin/css/vendor/select2/select2.css" type="text/css" media="screen" rel="stylesheet" />
+
+
+<!--    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>-->
+    <script src="/AmadoWHApp/static/src/jquery-customselect.js"></script>
+    <link href="/AmadoWHApp/static/src/jquery-customselect.css" rel="stylesheet" />
+
+    <script>
+
+        $(document).ready(function(event){
+            
+            $("#suppliers").customselect();
+
+{#            $(".results , .paginator").css('margin-left','0')#}
+{#            $("#result_list").append(#}
+{#                "<tr>" +#}
+{#                    "<td></td>"+#}
+{#                    "<td></td>"+#}
+{#                    "<td></td>"+#}
+{#                    "<td></td>"+#}
+{#                    "<th style='text-align:center'>جمع</th>"+#}
+{#                    "<th style='text-align:center'>{{ cl.tomato_count }}</th>" +#}
+{#                "</tr>")#}
+
+
+            if (window.location.href.includes('supplier=')){
+                str = window.location.href.split('supplier=')[1].split('&')[0]
+                $(".custom-select a span").html($('li[data-value='+str+']').html())
+
+                
+            }
+{##}
+{#            if (window.location.href.includes('product__id__exact=')){#}
+{#                str = window.location.href.split('product__id__exact=')[1].split('&')[0]#}
+{#                $("#products").val(str)#}
+{#            }#}
+{##}
+            if (window.location.href.includes('from_date=')){
+                str = window.location.href.split('from_date=')[1].split('&')[0]
+                if (str != '1300-01-01')
+                    $("#id_from_date").val(str)
+            }
+
+            if (window.location.href.includes('to_date=')){
+                str = window.location.href.split('to_date=')[1].split('&')[0]
+                if (str != '1500-12-29')
+                    $("#id_to_date").val(str)
+            }
+
+
+            $("#create_report").click(function (event) {
+
+
+
+                from_date = $("#id_from_date").val()+''
+                to_date = $("#id_to_date").val()+''
+
+
+                supplier = $("#suppliers").val()
+
+
+                if (from_date == ''){
+                    from_date = '1300-01-01'
+                }
+                if (to_date == ''){
+                    to_date = '1500-12-29'
+                }
+
+                str = window.location.href.split('supplierreport')
+                str = str[0]+'supplierreport?'
+
+
+                if (supplier != 'all'){
+                    str += 'supplier='+supplier+'&'
+                }
+
+                str += 'from_date='+from_date+'&to_date='+to_date
+
+                window.location = str
+
+
+
+            })
+
+            $('.vjDateField').datepicker({
+                dateFormat: 'yy-mm-dd',
+                changeMonth: true,
+                changeYear: true,
+                showOn: 'both',
+                buttonImage: 'http://5.152.221.185/AmadoWHApp/static/admin/jquery.ui.datepicker.jalali/themes/base/images/icon-calendar.svg',
+                buttonImageOnly: true,
+            //     minDate: $('.vjDateField').val(),
+            //     maxDate: '+30Y',
+            });
+
+
+
+
+        })
+
+
+    </script>
+
+{% endblock %}
+
+
+
+{% if not is_popup %}
+{#{% block breadcrumbs %}#}
+{#<div class="breadcrumbs">#}
+{#<a href="{% url 'admin:index' %}">{% trans 'Home' %}</a>#}
+{#&rsaquo; <a href="{% url 'admin:app_list' app_label=cl.opts.app_label %}">{{ cl.opts.app_config.verbose_name }}</a>#}
+{#&rsaquo; {{ cl.opts.verbose_name_plural|capfirst }}#}
+{##}
+{#</div>#}
+{#{% endblock %}#}
+{% endif %}
+
+{% block coltype %}flex{% endblock %}
+
+
+{% block content %}
+    {{ shops }}
+    <div style="margin:2% 2%">
+        <label for="suppliers">تامین کننده: </label>
+<!--        <input list="suppliers" name="suppliers" id='supplierinput'>-->
+<!--        <select id="suppliers">-->
+        <select id="suppliers" class='custom-select'>
+                <option value="all">
+                    ---------------------
+                </option>
+                {% for s in suppliers %}
+                    <option value="{{ s.id }}">
+                        {% if s.supplier_company %}
+                            {{ s.supplier_name }} از {{ s.supplier_company }}
+                        {% else %}
+                            {{ s.supplier_name }}
+                        {% endif %}
+                    </option>
+                {% endfor %}
+            </select>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+        <label for="id_from_date">از تاریخ: </label>
+        <input type="text" name="last_price_date" value="" class="vjDateField" size="10" required="" id="id_from_date">
+    &nbsp;&nbsp;
+        <label for="id_to_date">تا تاریخ: </label>
+        <input type="text" name="last_price_date" value="" class="vjDateField" size="10" required="" id="id_to_date">
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <input type="submit" value="ایجاد گزارش" id="create_report"/>
+    <br>
+
+    <h3>نقد از قبل سال {{ this_year }} : {{ until_this_year_sum }} ریال</h3>
+    <h3>نقد از قبل تاریخ گزارش  : {{ until_from_date_sum }} ریال</h3>
+
+    </div>
+    <div id="content-main">
+        <table id="result_list" style="width: 100%">
+            <thead>
+            <tr>
+
+                <th style="text-align:center" scope="col" class="action-checkbox-column">
+
+                   <div class="text"><span><input type="checkbox" id="action-toggle"></span></div>
+                   <div class="clear"></div>
+                </th>
+                <th style="text-align:center" scope="col" class="sortable column-getid">
+
+
+
+                   <div class="text"><a href="?o=2.3">شناسه</a></div>
+                   <div class="clear"></div>
+                </th>
+                <th style="text-align:center" scope="col" class="sortable column-date sorted ascending">
+
+
+                       <div class="sortoptions">
+                         <a class="sortremove" href="?o=" title="حذف از مرتب سازی"></a>
+
+                         <a href="?o=-3" class="toggle ascending" title="تعویض مرتب سازی"></a>
+                       </div>
+
+
+                   <div class="text"><a href="?o=-3">تاریخ پرداخت</a></div>
+                   <div class="clear"></div>
+                </th>
+                <th style="text-align:center" scope="col" class="column-type">
+
+                   <div class="text"><span>نوع پرداخت</span></div>
+                   <div class="clear"></div>
+                </th>
+                <th style="text-align:center" scope="col" class="sortable column-cost">
+                   <div class="text"><a href="?o=5.3">مبلغ خرید(ریال)</a></div>
+                   <div class="clear"></div>
+                </th>
+                <th style="text-align:center" scope="col" class="sortable column-cost">
+
+
+
+                   <div class="text"><a href="?o=5.3">مبلغ پرداختی(ریال)</a></div>
+                   <div class="clear"></div>
+                </th>
+                <th style="text-align:center" scope="col" class="column-desc">
+
+               <div class="text"><span>توضیحات</span></div>
+               <div class="clear"></div>
+            </th>
+
+            </tr>
+            </thead>
+            <tbody>
+
+            {% for p in payments %}
+                {% if forloop.counter|divisibleby:2 %}
+                    <tr style="text-align:center;direction:rtl" class="row2">
+                {% else %}
+                    <tr style="text-align:center;direction:rtl" class="row1">
+                {% endif %}
+                    <td class="action-checkbox">
+                        <input type="checkbox" name="_selected_action" value="211" class="action-select">
+                    </td>
+                    {% if p.factor__id %}
+                        <th class="field-getid"><a href="{{ p.link }}">{{ p.factor__id }}</a></th>
+                    {% else %}
+                        <th class="field-getid"><a href="{{ p.link }}">{{ p.checkp__id }}</a></th>
+                    {% endif %}
+                    <td class="field-date">{{ p.payment_due_date }}</td>
+                    {% if p.payment %}
+                        <td class="field-type">{{ p.type }}</td>
+                        <td></td>
+                        <td class="field-cost">{{ p.cost }}</td>
+                    {% else %}
+                        <td class="field-type">خرید</td>
+                        <td class="field-cost">{{ p.cost }}</td>
+                        <td></td>
+                    {% endif %}
+
+                    <td class="field-desc">{{ p.desc }}</td>
+                </tr>
+            {% endfor %}
+
+
+
+
+
+        <tr><td></td><td></td><td></td><th style="text-align:center">جمع</th><th style="text-align:center">{{ shop_sum }}</th><th style="text-align:center">{{ sum }}</th><th style="text-align:center">{{ difference }}</th></tr></tbody>
+        </table>
+    </div>
+  </div>
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends "admin/change_form.html" %}
+{% load i18n admin_static %}
+
+{% block extrahead %}
+{{ block.super }}
+
+    <script>
+    $(document).ready(function () {
+
+        if (window.location.href.includes('/add/')){
+
+
+            {% for p in products %}
+            
+            
+                $("#id_branchwarehouseproduct_set-{{ forloop.counter0 }}-product").append('<option value="{{ p.id }}">{{ p.product_name }}</option>')
+
+
+                $("#select2-id_branchwarehouseproduct_set-{{ forloop.counter0 }}-product-container").attr('title','{{ p.product_name }}')
+                $("#select2-id_branchwarehouseproduct_set-{{ forloop.counter0 }}-product-container").html('{{ p.product_name }}')
+                $("#branchwarehouseproduct_set-{{ forloop.counter0 }} .field-getunit").html('{{ p.product_second_unit__unit_name }}')
+            {% endfor %}
+        }
+
+    })
+    </script>
+
+
+{% endblock %}

@@ -1,0 +1,28 @@
+[Thu Apr 25 13:55:45.878280 2019] [wsgi:error] [pid 13444] [remote 67.213.210.221:63996] Invalid HTTP_HOST header: 'amadowh.ir:8000'. You may need to add 'amadowh.ir' to ALLOWED_HOSTS.
+[Thu Apr 25 13:55:46.986073 2019] [wsgi:error] [pid 13444] [remote 67.213.210.221:22490] Invalid HTTP_HOST header: 'amadowh.ir:8000'. You may need to add 'amadowh.ir' to ALLOWED_HOSTS.
+[Thu Apr 25 09:28:20.371918 2019] [wsgi:error] [pid 13504] [remote 67.213.210.221:33796] mod_wsgi (pid=13504): Failed to exec Python script file '/home/SunIntel/SunIntel/wsgi.py'.
+[Thu Apr 25 09:28:20.372419 2019] [wsgi:error] [pid 13504] [remote 67.213.210.221:33796] mod_wsgi (pid=13504): Exception occurred processing WSGI script '/home/SunIntel/SunIntel/wsgi.py'.
+[Thu Apr 25 09:28:20.399113 2019] [wsgi:error] [pid 13504] [remote 67.213.210.221:33796] Traceback (most recent call last):
+[Thu Apr 25 09:28:20.399542 2019] [wsgi:error] [pid 13504] [remote 67.213.210.221:33796]   File "/home/SunIntel/SunIntel/wsgi.py", line 16, in <module>
+[Thu Apr 25 09:28:20.399643 2019] [wsgi:error] [pid 13504] [remote 67.213.210.221:33796]     application = get_wsgi_application()
+[Thu Apr 25 09:28:20.399742 2019] [wsgi:error] [pid 13504] [remote 67.213.210.221:33796]   File "/venvs/AmadoWH/lib/python3.6/site-packages/django/core/wsgi.py", line 12, in get_wsgi_application
+[Thu Apr 25 09:28:20.399797 2019] [wsgi:error] [pid 13504] [remote 67.213.210.221:33796]     django.setup(set_prefix=False)
+[Thu Apr 25 09:28:20.399886 2019] [wsgi:error] [pid 13504] [remote 67.213.210.221:33796]   File "/venvs/AmadoWH/lib/python3.6/site-packages/django/__init__.py", line 19, in setup
+[Thu Apr 25 09:28:20.399941 2019] [wsgi:error] [pid 13504] [remote 67.213.210.221:33796]     configure_logging(settings.LOGGING_CONFIG, settings.LOGGING)
+[Thu Apr 25 09:28:20.400020 2019] [wsgi:error] [pid 13504] [remote 67.213.210.221:33796]   File "/venvs/AmadoWH/lib/python3.6/site-packages/django/conf/__init__.py", line 57, in __getattr__
+[Thu Apr 25 09:28:20.400076 2019] [wsgi:error] [pid 13504] [remote 67.213.210.221:33796]     self._setup(name)
+[Thu Apr 25 09:28:20.400161 2019] [wsgi:error] [pid 13504] [remote 67.213.210.221:33796]   File "/venvs/AmadoWH/lib/python3.6/site-packages/django/conf/__init__.py", line 44, in _setup
+[Thu Apr 25 09:28:20.400205 2019] [wsgi:error] [pid 13504] [remote 67.213.210.221:33796]     self._wrapped = Settings(settings_module)
+[Thu Apr 25 09:28:20.400265 2019] [wsgi:error] [pid 13504] [remote 67.213.210.221:33796]   File "/venvs/AmadoWH/lib/python3.6/site-packages/django/conf/__init__.py", line 107, in __init__
+[Thu Apr 25 09:28:20.400301 2019] [wsgi:error] [pid 13504] [remote 67.213.210.221:33796]     mod = importlib.import_module(self.SETTINGS_MODULE)
+[Thu Apr 25 09:28:20.400354 2019] [wsgi:error] [pid 13504] [remote 67.213.210.221:33796]   File "/lib64/python3.6/importlib/__init__.py", line 126, in import_module
+[Thu Apr 25 09:28:20.400390 2019] [wsgi:error] [pid 13504] [remote 67.213.210.221:33796]     return _bootstrap._gcd_import(name[level:], package, level)
+[Thu Apr 25 09:28:20.400441 2019] [wsgi:error] [pid 13504] [remote 67.213.210.221:33796]   File "<frozen importlib._bootstrap>", line 994, in _gcd_import
+[Thu Apr 25 09:28:20.400596 2019] [wsgi:error] [pid 13504] [remote 67.213.210.221:33796]   File "<frozen importlib._bootstrap>", line 971, in _find_and_load
+[Thu Apr 25 09:28:20.400694 2019] [wsgi:error] [pid 13504] [remote 67.213.210.221:33796]   File "<frozen importlib._bootstrap>", line 941, in _find_and_load_unlocked
+[Thu Apr 25 09:28:20.400786 2019] [wsgi:error] [pid 13504] [remote 67.213.210.221:33796]   File "<frozen importlib._bootstrap>", line 219, in _call_with_frames_removed
+[Thu Apr 25 09:28:20.400872 2019] [wsgi:error] [pid 13504] [remote 67.213.210.221:33796]   File "<frozen importlib._bootstrap>", line 994, in _gcd_import
+[Thu Apr 25 09:28:20.400957 2019] [wsgi:error] [pid 13504] [remote 67.213.210.221:33796]   File "<frozen importlib._bootstrap>", line 971, in _find_and_load
+[Thu Apr 25 09:28:20.401038 2019] [wsgi:error] [pid 13504] [remote 67.213.210.221:33796]   File "<frozen importlib._bootstrap>", line 953, in _find_and_load_unlocked
+[Thu Apr 25 09:28:20.401232 2019] [wsgi:error] [pid 13504] [remote 67.213.210.221:33796] ModuleNotFoundError: No module named 'SunIntel'
+[Thu Apr 25 14:07:13.718088 2019] [wsgi:error] [pid 13736] [remote 67.213.210.221:28742] Invalid HTTP_HOST header: 'amadowh.ir:8000'. You may need to add 'amadowh.ir' to ALLOWED_HOSTS.

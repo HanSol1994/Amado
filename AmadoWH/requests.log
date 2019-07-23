@@ -1,0 +1,4 @@
+67.213.210.221 - - [25/Apr/2019:09:25:43 +0000] "GET / HTTP/1.1" 400 60369 "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.1 Safari/605.1.15"
+67.213.210.221 - - [25/Apr/2019:09:25:46 +0000] "GET /favicon.ico HTTP/1.1" 400 60467 "http://amadowh.ir:8000/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.1 Safari/605.1.15"
+67.213.210.221 - - [25/Apr/2019:09:28:18 +0000] "GET / HTTP/1.1" 500 527 "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.1 Safari/605.1.15"
+67.213.210.221 - - [25/Apr/2019:09:37:13 +0000] "GET / HTTP/1.1" 400 60361 "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.1 Safari/605.1.15"

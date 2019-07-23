@@ -1,0 +1,84 @@
+{% extends "admin/change_list.html" %}
+{% load i18n admin_static %}
+
+{% block extrahead %}
+
+    {{ block.super }}
+
+    <script type="text/javascript" src="/AmadoWHApp/static/admin/jquery.ui.datepicker.jalali/scripts/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="/AmadoWHApp/static/admin/jquery.ui.datepicker.jalali/scripts/jquery.ui.core.js"></script>
+    <script type="text/javascript" src="/AmadoWHApp/static/admin/jquery.ui.datepicker.jalali/scripts/jquery.ui.datepicker-cc.js"></script>
+    <script type="text/javascript" src="/AmadoWHApp/static/admin/jquery.ui.datepicker.jalali/scripts/calendar.js"></script>
+    <script type="text/javascript" src="/AmadoWHApp/static/admin/jquery.ui.datepicker.jalali/scripts/jquery.ui.datepicker-cc-fa.js"></script>
+    <link href="/AmadoWHApp/static/admin/jquery.ui.datepicker.jalali/themes/base/jquery-ui.min.css" type="text/css" media="all" rel="stylesheet" />
+    <link href="/AmadoWHApp/static/admin/css/main.css" type="text/css" media="all" rel="stylesheet" />
+    <link href="/AmadoWHApp/static/admin/css/vendor/select2/select2.css" type="text/css" media="screen" rel="stylesheet" />
+
+
+    <script>
+
+        $(document).ready(function(event){
+            
+            $('.actions select').on('change', function() {
+              if (this.value == 'get_salary'){
+                  $("thead tr").append('<th style="text-align:center" scope="col" class="column-__str__">'+
+                                   '<div class="text"><span>محاسبه مرخصی</span></div>'+
+                                   '<div class="clear"></div>'+
+                                '</th>')
+
+            $("thead tr").append('<th style="text-align:center" scope="col" class="column-__str__">'+
+                                   '<div class="text"><span>مرخصی های مانده تا ماه قبل </span></div>'+
+                                   '<div class="clear"></div>'+
+                                '</th>')
+
+            $("thead tr").append('<th style="text-align:center" scope="col" class="column-__str__">'+
+                                   '<div class="text"><span>محاسبه عیدی</span></div>'+
+                                   '<div class="clear"></div>'+
+                                '</th>')
+                                
+            $("thead tr").append('<th style="text-align:center" scope="col" class="column-__str__">'+
+                                   '<div class="text"><span>روز های کارکرد از اول امسال </span></div>'+
+                                   '<div class="clear"></div>'+
+                                '</th>')
+
+            $(".results tbody tr").each(function (element) {
+                id = $(this).children('.action-checkbox').children('input').val()
+                $(this).append("<td><input type='checkbox' name='v"+id+"' value='"+id+"' ></td>")
+                $(this).append("<td><input type='number'style='width: 50pt;' name='vnum"+id+"'  ></td>")
+                $(this).append("<td><input type='checkbox' name='eydi"+id+"' value='"+id+"' ></td>")
+                $(this).append("<td><input type='number'style='width: 50pt;' name='eydinum"+id+"'  ></td>")
+            })
+
+
+            
+
+              }
+            });
+
+$("#changelist-form").prepend('<label for="id_from_date">از تاریخ: </label>\
+        <input type="text" name="from_date" value="1398-01-01" class="vjDateField" size="10" required="" id="id_from_date">\
+    &nbsp;&nbsp;\
+        <label for="id_to_date">تا تاریخ: </label>\
+        <input type="text" name="to_date" value="1398-01-31" class="vjDateField" size="10" required="" id="id_to_date">')
+            
+
+            $('.vjDateField').datepicker({
+                dateFormat: 'yy-mm-dd',
+                changeMonth: true,
+                changeYear: true,
+                showOn: 'both',
+                buttonImage: 'http://amadowh.ir/AmadoWHApp/static/admin/jquery.ui.datepicker.jalali/themes/base/images/icon-calendar.svg',
+                buttonImageOnly: true,
+            //     minDate: $('.vjDateField').val(),
+            //     maxDate: '+30Y',
+            });
+            
+            
+
+            
+        })
+
+
+    </script>
+
+{% endblock %}

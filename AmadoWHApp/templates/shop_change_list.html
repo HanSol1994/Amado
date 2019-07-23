@@ -1,0 +1,16 @@
+{% extends "admin/change_list.html" %}
+{% load i18n admin_static %}
+
+{% block result_list %}
+
+<div class="" style="margin:1%">
+    <a href='?status=submitted'><span style="padding:5px;border-radius:5px;background: #fcf8e3;" ><i class="fas fa-clock"></i></span><span> ثبت شده/در انتظار تایید</span></a>
+    <a href='?status=confirmed'><span style="padding:5px;border-radius:5px;background: #d9edf7;" ><i class="fas fa-check-circle"></i></span><span>تایید شده/در انتظار خرید</span></a>
+    <a href='?status=done'><span style="padding:5px;border-radius:5px;background: #dff0d8;" ><i class="fas fas fa-check-double"></i></span><span> خرید شده/در انتظار دریافت</span></a>
+    <a href='?status=declined'><span style="padding:5px;border-radius:5px;background: #f2dede;" ><i class="fas fas fa-times-circle"></i></span><span> رد شده</span></a>
+    <a href='?status=received'><span style="padding:5px;border-radius:5px;background: lightgray;" ><i class="fas fa-truck"></i></span><span> دریافت شده</span></a>
+</div>
+
+    {{ block.super }}
+
+{% endblock %}

@@ -1,0 +1,12 @@
+{% extends "admin/change_list.html" %}
+{% load i18n admin_static %}
+
+{% block object-tools-items %}
+{{ block.super }}
+
+{% if user.get_username == "admin" %}
+<li>
+    <a href="../../../../report/sendsms" class="btn btn-high btn-success">ارسال پیامک برای انبار</a>
+</li>
+{% endif %}
+{% endblock %}

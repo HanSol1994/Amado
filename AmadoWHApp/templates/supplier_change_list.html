@@ -1,0 +1,174 @@
+{% extends "admin/change_list.html" %}
+{% load i18n admin_static %}
+
+{% block extrahead %}
+
+    {{ block.super }}
+
+    <!--<script type="text/javascript" src='https://ajax.googleapis.com/ajax/libs/jquery/2.2.3/jquery.min.js'></script>-->
+    <!--<script type="text/javascript" src="/AmadoWHApp/static/admin/js/admin/jalalijscalendar/jalali.js"></script>-->
+    <!--<script type="text/javascript" src="/AmadoWHApp/static/admin/js/admin/jalalijscalendar/calendar.js"></script>-->
+    <!--<script type="text/javascript" src="/AmadoWHApp/static/admin/js/admin/jalalijscalendar/calendar-setup.js"></script>-->
+    <!--<script type="text/javascript" src="/AmadoWHApp/static/admin/js/admin/jalalijscalendar/calendar-fa.js"></script>-->
+    <!--<script type="text/javascript" src="/AmadoWHApp/static/admin/js/admin/jDateTimeShortcuts.js"></script>-->
+    <!--<link href="/AmadoWHApp/static/admin/css/calendar-green.css" type="text/css" media="all" rel="stylesheet" />-->
+    <!--<link href="/AmadoWHApp/static/admin/css/vendor/select2/select2.css" type="text/css" media="screen" rel="stylesheet" />-->
+    
+    <script type="text/javascript" src="/AmadoWHApp/static/admin/jquery.ui.datepicker.jalali/scripts/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="/AmadoWHApp/static/admin/jquery.ui.datepicker.jalali/scripts/jquery.ui.core.js"></script>
+    <script type="text/javascript" src="/AmadoWHApp/static/admin/jquery.ui.datepicker.jalali/scripts/jquery.ui.datepicker-cc.js"></script>
+    <script type="text/javascript" src="/AmadoWHApp/static/admin/jquery.ui.datepicker.jalali/scripts/calendar.js"></script>
+    <script type="text/javascript" src="/AmadoWHApp/static/admin/jquery.ui.datepicker.jalali/scripts/jquery.ui.datepicker-cc-fa.js"></script>
+    <link href="/AmadoWHApp/static/admin/jquery.ui.datepicker.jalali/themes/base/jquery-ui.min.css" type="text/css" media="all" rel="stylesheet" />
+    <link href="/AmadoWHApp/static/admin/css/main.css" type="text/css" media="all" rel="stylesheet" />
+    <link href="/AmadoWHApp/static/admin/css/vendor/select2/select2.css" type="text/css" media="screen" rel="stylesheet" />
+
+    <script src="/AmadoWHApp/static/src/jquery-customselect.js"></script>
+    <link href="/AmadoWHApp/static/src/jquery-customselect.css" rel="stylesheet" />
+
+    <script>
+        $(document).ready(function(event){
+            
+            $("#suppliers").customselect();
+            
+            $(".results , .paginator").css('margin-left','0')
+            $("#result_list").append(
+                "<tr>" +
+                    "<td></td>"+
+                    "<td></td>"+
+                    "<td></td>"+
+                    "<td></td>"+
+                    "<td></td>"+
+                    "<th style='text-align:center'>جمع</th>"+
+                    "<th style='text-align:center'>{{ cl.tomato_count }}</th>" +
+                "</tr>")
+
+
+            if (window.location.href.includes('shop__supplier__id__exact=')){
+                str = window.location.href.split('shop__supplier__id__exact=')[1].split('&')[0]
+                $("#suppliers .custom-select a span").val(str)
+            }
+
+            if (window.location.href.includes('product__id__exact=')){
+                str = window.location.href.split('product__id__exact=')[1].split('&')[0]
+                $("#products").val(str)
+            }
+
+            if (window.location.href.includes('shop__from_date__gte=')){
+                str = window.location.href.split('shop__from_date__gte=')[1].split('&')[0]
+                if (str != '1300-01-01')
+                    $("#id_from_date").val(str)
+            }
+
+            if (window.location.href.includes('shop__from_date__lte=')){
+                str = window.location.href.split('shop__from_date__lte=')[1].split('&')[0]
+                if (str != '1500-12-29')
+                    $("#id_to_date").val(str)
+            }
+
+
+            $("#create_report").click(function (event) {
+
+
+
+                from_date = $("#id_from_date").val()
+                to_date = $("#id_to_date").val()
+
+                product = $("#products").val()
+
+                supplier = $("#suppliers").val()
+
+
+                if (from_date == ''){
+                    from_date = '1300-01-01'
+                }
+                if (to_date == ''){
+                    to_date = '1500-12-29'
+                }
+
+{#                window.location = window.location#}
+                str = window.location.href.split('shopdetail')
+                str = str[0]+'shopdetail?'
+
+                if (product != 'all'){
+                    str += 'product__id__exact='+product+'&'
+                }
+                if (supplier != 'all'){
+                    str += 'shop__supplier__id__exact='+supplier+'&'
+                }
+
+                str += 'shop__from_date__gte='+from_date+'&shop__from_date__lte='+to_date
+
+                window.location = str
+
+
+
+            })
+
+            $('.vjDateField').datepicker({
+                dateFormat: 'yy-mm-dd',
+                changeMonth: true,
+                changeYear: true,
+                showOn: 'both',
+                buttonImage: 'http://amadowh.ir/AmadoWHApp/static/admin/jquery.ui.datepicker.jalali/themes/base/images/icon-calendar.svg',
+                buttonImageOnly: true,
+            //     minDate: $('.vjDateField').val(),
+            //     maxDate: '+30Y',
+            });
+            
+            
+
+            
+        })
+
+
+    </script>
+
+{% endblock %}
+
+
+{% block object-tools %}
+    {{ block.super }}
+    <div style="margin:2% 2%">
+        <label for="suppliers">تامین کننده: </label>
+        <select id="suppliers" class='custom-select'>
+                <option value="all">
+                    ---------------------
+                </option>
+                {% for s in cl.suppliers %}
+                    <option value="{{ s.id }}">
+                        {% if s.supplier_company %}
+                            {{ s.supplier_name }} از {{ s.supplier_company }}
+                        {% else %}
+                            {{ s.supplier_name }}
+                        {% endif %}
+                    </option>
+                {% endfor %}
+            </select>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+        <label for="id_from_date">از تاریخ: </label>
+        <input type="text" name="last_price_date" value="" class="vjDateField" size="10" required="" id="id_from_date">
+        &nbsp;&nbsp;
+        <label for="id_to_date">تا تاریخ: </label>
+        <input type="text" name="last_price_date" value="" class="vjDateField" size="10" required="" id="id_to_date">
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <label for="products">کالا: </label>
+        <select id="products">
+            <option value="all">
+                ---------------------
+            </option>
+            {% for p in cl.products %}
+                <option value="{{ p.id }}">
+                    {{ p.product_name }}
+                </option>
+            {% endfor %}
+        </select>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <input type="submit" value="ایجاد گزارش" id="create_report"/>
+    </div>
+{% endblock object-tools %}
+
+{% block filters %}
+{% endblock %}

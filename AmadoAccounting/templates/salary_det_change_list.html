@@ -1,0 +1,49 @@
+{% extends "admin/change_list.html" %}
+{% load i18n admin_static %}
+
+{% block extrahead %}
+
+    {{ block.super }}
+
+    <script type="text/javascript" src='https://ajax.googleapis.com/ajax/libs/jquery/2.2.3/jquery.min.js'></script>
+    <script type="text/javascript" src="/AmadoWHApp/static/admin/js/admin/jalalijscalendar/jalali.js"></script>
+    <script type="text/javascript" src="/AmadoWHApp/static/admin/js/admin/jalalijscalendar/calendar.js"></script>
+    <script type="text/javascript" src="/AmadoWHApp/static/admin/js/admin/jalalijscalendar/calendar-setup.js"></script>
+    <script type="text/javascript" src="/AmadoWHApp/static/admin/js/admin/jalalijscalendar/calendar-fa.js"></script>
+    <script type="text/javascript" src="/AmadoWHApp/static/admin/js/admin/jDateTimeShortcuts.js"></script>
+    <link href="/AmadoWHApp/static/admin/css/calendar-green.css" type="text/css" media="all" rel="stylesheet" />
+    <link href="/AmadoWHApp/static/admin/css/vendor/select2/select2.css" type="text/css" media="screen" rel="stylesheet" />
+
+
+
+    <script>
+
+        $(document).ready(function(event){
+
+            $("#result_list").append(
+                "<tr>" +
+                    "<td></td>"+
+                    "<td></td>"+
+                    "<td></td>"+
+                    "<td></td>"+
+                    "<th style='text-align:center'>جمع</th>"+
+                    "<th style='text-align:center;'>{{ cl.tomato_count }}</th>" +
+                    "<th style='text-align:center;background-color: #8effbf;'>{{ cl.tomato_count1 }}</th>" +
+                    "<td></td>"+
+                    "<td></td>"+
+                "</tr>")
+
+
+
+        })
+
+
+    </script>
+
+    <style>
+        .field-remainder,.column-remainder{
+            background-color: #8effbf;
+        }
+    </style>
+
+{% endblock %}

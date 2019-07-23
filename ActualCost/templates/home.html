@@ -1,0 +1,206 @@
+{% extends "admin/base_site.html" %}
+{% load i18n admin_urls static admin_list %}
+
+{% block extrastyle %}
+  {{ block.super }}
+  <link rel="stylesheet" type="text/css" href="{% static "admin/css/changelists.css" %}" />
+  {% if cl.formset %}
+    <link rel="stylesheet" type="text/css" href="{% static "admin/css/forms.css" %}" />
+  {% endif %}
+  {% if cl.formset or action_form %}
+    <script type="text/javascript" src="{% url 'admin:jsi18n' %}"></script>
+  {% endif %}
+  {{ media.css }}
+  {% if not actions_on_top and not actions_on_bottom %}
+    <style>
+      #changelist table thead th:first-child {width: inherit}
+    </style>
+  {% endif %}
+{% endblock %}
+
+{% block breadcrumbs %}<div class="breadcrumbs">
+    <a href="/admin/">شروع</a>
+</div>
+{% endblock %}
+
+{% block extrahead %}
+{{ block.super }}
+{{ media.js }}
+
+    <script type="text/javascript" src="/AmadoWHApp/static/admin/jquery.ui.datepicker.jalali/scripts/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="/AmadoWHApp/static/admin/jquery.ui.datepicker.jalali/scripts/jquery.ui.core.js"></script>
+    <script type="text/javascript" src="/AmadoWHApp/static/admin/jquery.ui.datepicker.jalali/scripts/jquery.ui.datepicker-cc.js"></script>
+    <script type="text/javascript" src="/AmadoWHApp/static/admin/jquery.ui.datepicker.jalali/scripts/calendar.js"></script>
+    <script type="text/javascript" src="/AmadoWHApp/static/admin/jquery.ui.datepicker.jalali/scripts/jquery.ui.datepicker-cc-fa.js"></script>
+    <link href="/AmadoWHApp/static/admin/jquery.ui.datepicker.jalali/themes/base/jquery-ui.min.css" type="text/css" media="all" rel="stylesheet" />
+    <link href="/AmadoWHApp/static/admin/css/main.css" type="text/css" media="all" rel="stylesheet" />
+{#    <link href="/AmadoWHApp/static/admin/css/vendor/select2/select2.css" type="text/css" media="screen" rel="stylesheet" />#}
+
+
+ 
+{#    <script src="/AmadoWHApp/static/src/jquery-customselect.js"></script>#}
+{#    <link href="/AmadoWHApp/static/src/jquery-customselect.css" rel="stylesheet" />#}
+
+    <script>
+        
+        
+
+        function run() {
+
+            ctype = $("#ctype").val()
+            type = $("#type").val()
+            products = $('#products').val()
+            foods = $('#foods').val()
+
+            if ( ctype == 'ac'){
+                if (type == 'lvl2'){
+                    console.log(products)
+                    $.ajax({
+                        url: "../ActualCost/calcacl2",
+                        method:'POST',
+                        data: {'ids':products+'','from_date':$("#from_date").val(),'to_date':$("#to_date").val()}
+                    }).done(function(data) {
+                        console.log(data)
+                        window.alert('محاسبه قیمت تمام شده آماده سازی تمام شد')
+                    });
+                }
+                else if (type == 'lvl3'){
+                    $.ajax({
+                        url: "../ActualCost/calcacl3",
+                        method:'POST',
+                        data: {'ids':foods+'','from_date':$("#from_date").val(),'to_date':$("#to_date").val()}
+                    }).done(function(data) {
+                        console.log(data)
+                        window.alert('محاسبه قیمت تمام شده غذا تمام شد')
+                    });
+                }
+                else{
+                    $.ajax({
+                        url: "../ActualCost/calcacl2",
+                        method:'POST',
+                        data: {'ids':products+'','from_date':$("#from_date").val(),'to_date':$("#to_date").val()}
+                    }).done(function(data) {
+                        console.log(data)
+                        window.alert('محاسبه قیمت تمام شده آماده سازی تمام شد')
+                        $.ajax({
+                        url: "../ActualCost/calcacl3",
+                        method:'POST',
+                        data: {'ids':foods+'','from_date':$("#from_date").val(),'to_date':$("#to_date").val()}
+                    }).done(function(data) {
+                        console.log(data)
+                        window.alert('محاسبه قیمت تمام شده غذا تمام شد')
+                    });
+                    });
+
+                }
+            }
+            else{
+                if (type == 'lvl2'){
+                    console.log(products)
+                    $.ajax({
+                        url: "../ActualCost/calcscl2",
+                        method:'POST',
+                        data: {'ids':products+'','from_date':$("#from_date").val(),'to_date':$("#to_date").val()}
+                    }).done(function(data) {
+                        console.log(data)
+                        window.alert('محاسبه قیمت فروش آماده سازی تمام شد')
+                    });
+                }
+            }
+
+
+
+
+
+        }
+
+        $(document).ready(function(){
+            $('.vjDateField').datepicker({
+                dateFormat: 'yy-mm-dd',
+                changeMonth: true,
+                changeYear: true,
+                showOn: 'both',
+                buttonImage: 'http://amadowh.ir/AmadoWHApp/static/admin/jquery.ui.datepicker.jalali/themes/base/images/icon-calendar.svg',
+                buttonImageOnly: true,
+            //     minDate: $('.vjDateField').val(),
+            //     maxDate: '+30Y',
+            });
+        })
+
+
+    </script>
+
+{% endblock %}
+
+
+
+{% if not is_popup %}
+{#{% block breadcrumbs %}#}
+{#<div class="breadcrumbs">#}
+{#<a href="{% url 'admin:index' %}">{% trans 'Home' %}</a>#}
+{#&rsaquo; <a href="{% url 'admin:app_list' app_label=cl.opts.app_label %}">{{ cl.opts.app_config.verbose_name }}</a>#}
+{#&rsaquo; {{ cl.opts.verbose_name_plural|capfirst }}#}
+{##}
+{#</div>#}
+{#{% endblock %}#}
+{% endif %}
+
+{% block coltype %}flex{% endblock %}
+
+
+{% block content %}
+    {{ shops }}
+    <div style="margin:2% 2%">
+
+    <h1>محاسبه قیمت تمام شده</h1>
+
+    <label for="ctype">محاسبه </label>
+    <select id="ctype">
+        <option value="ac">قیمت تمام شده</option>
+        <option value="sc">قیمت فروش</option>
+    </select>
+    <label for="type"> برای </label>
+    <select id="type">
+        <option value="lvl2">کالای آماده سازی</option>
+        <option value="lvl3">غذای آمادو</option>
+        <option value='all'>همه</option>
+    </select>
+        
+    <label for='from_date'>از تاریخ</label>
+    <img class="ui-datepicker-trigger" src="http://5.152.221.185/AmadoWHApp/static/admin/jquery.ui.datepicker.jalali/themes/base/images/icon-calendar.svg" alt="..." title="...">
+    <input type="text" name="from_date" value="1398-01-01" class="vjDateField hasDatepicker" size="10" id="from_date">
+        
+    <label for='from_date'>تا تاریخ</label>
+        <img class="ui-datepicker-trigger" src="http://5.152.221.185/AmadoWHApp/static/admin/jquery.ui.datepicker.jalali/themes/base/images/icon-calendar.svg" alt="..." title="...">
+        <input type="text" name="to_date" value="1398-01-31" class="vjDateField hasDatepicker" size="10" id="to_date">
+        
+        
+    <br>
+
+
+    <select id="products" multiple>
+    {% for p in products %}
+        <option value={{ p.recipe_parent_product }}>{{ p.recipe_parent_product__product_name }}</option>
+    {% endfor %}
+    </select>
+
+    <select id ='foods' multiple>
+    {% for f in foods %}
+        <option value="{{ f.id }}">{{ f.name }}</option>
+    {% endfor %}
+    </select>
+        
+
+
+    <button style="padding:5px;margin:0 5px;border-radius:5px;background: #b65e41;color:white;" onclick="run()"> اجرا عملیات </button>
+        
+    <br>
+    <br>
+    <br>
+    <a style="padding:5px;margin:0 5px;border-radius:5px;background: #b65e41;color:white;" target="_blank" href='actualcost'>مشاهده لیست قیمت تمام شده ها</a>
+
+
+    </div>
+
+
+{% endblock %}

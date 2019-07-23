@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <meta charset="UTF-8">
+    <title> مشاهده مغایرت شعبه {{branch}} تاریخ {{ d }}</title>
+
+
+    <style>
+
+        *{
+            vertical-align: middle !important;
+        }
+        .diff{
+            background-color: #8effbf;
+        }
+
+    </style>
+
+</head>
+
+
+
+<body>
+
+<div class="container-fluid text-center align-middle">
+
+
+{% if res %}
+    <h4 style="margin-top: 5%; direction:rtl">
+    گزارش مغایرت شعبه {{branch}} روز {{ d }}
+        </h4>
+
+    <table class="table align-middle table-striped table-bordered" style="direction:rtl;margin:1% 10%;width:80%">
+        <thead class="thead-dark">
+            <tr class="active">
+                <th class="col-*-1 text-center" scope="col">ردیف</th>
+                <th class="col-*-5 text-center" scope="col">
+                    کالا
+                </th>
+                <th class="col-*-3 text-center" scope="col">مقدار موجودی وارد شده</th>
+                <th class="col-*-3 text-center" scope="col">تخمین سیستم</th>
+                <th class="col-*-3 text-center diff" scope="col">اختلاف</th>
+                <th class="col-*-3 text-center" scope="col">موجودی روز قبل</th>
+                <th class="col-*-3 text-center" scope="col">درخواست روز </th>
+                <th class="col-*-3 text-center" scope="col">مغایرت</th>
+                <th class="col-*-3 text-center" scope="col">مقدار مصرفی روز (فروش)</th>
+            </tr>
+            {% for p in res %}
+                <tr>
+                    <th class="col-*-1 text-center active" scope="row">{{ forloop.counter }}</th>
+                    <td class="col-*-5">{{ p.product }}</td>
+                    <td class="col-*-3">{{ p.real_amount }}</td>
+                    <td class="col-*-3">{{ p.estimation }}</td>
+                    <td class="col-*-3 diff">{{ p.difference }}</td>
+                    <td class="col-*-3">{{ p.last_amount }}</td>
+                    <td class="col-*-3">{{ p.request }}</td>
+                    <td class="col-*-3">{{ p.variance }}</td>
+                    <td class="col-*-3">{{ p.sales }}<br>
+
+
+                        <div class="collapse" id="d{{ forloop.counter }}"><br>
+                        <br>{{ p.sales_desc|safe }}</div>
+
+                        <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#d{{ forloop.counter }}">مشاهده جزئیات </button>
+
+                    </td>
+                </tr>
+            {% endfor %}
+        </thead>
+
+    </table>
+</div>
+
+{% else %}
+    <h4 style="margin-top: 5%">عملیات مجاز نیست</h4>
+{% endif %}
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,74 @@
+{% extends "admin/change_list.html" %}
+{% load i18n admin_static %}
+
+
+{% block object-tools %}
+{{ block.super }}
+    <form method="post" action="../view/uploadsalary" enctype="multipart/form-data">
+
+        <label for="id_date">تاریخ: </label>
+        <input type="text" name="date" value="{{ from_date }}" class="vjDateField" size="10" required="" id="id_date">
+
+        &nbsp;&nbsp;
+
+        <label for="id_branch">شعبه: </label>
+        <select name="branch">
+<!--            <option value=3>پونک</option>-->
+            <option value=4>جنت آباد</option>
+<!--            <option value=5>سعادت آباد</option>-->
+<!--            <option value=6>گلستان</option>-->
+<!--            <option value=7>هایپراستار</option>-->
+            <option value=8>آماده سازی</option>
+            <option value=9>دفتر مرکزی</option>
+            <option value=11>تسویه شده</option>
+            <option value=10>عیدی</option>
+        </select>
+
+        &nbsp;&nbsp;
+
+        <label for="salary">فایل حقوق: </label>
+        {% csrf_token %}
+        <input name="salary" type="file" id="salary" accept=".xls,.xlsx">
+
+        <input type="submit" value="بارگزاری"/>
+    </form>
+{% endblock %}
+
+{% block extrahead %}
+
+    {{ block.super }}
+
+    <script type="text/javascript" src="/AmadoWHApp/static/admin/jquery.ui.datepicker.jalali/scripts/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="/AmadoWHApp/static/admin/jquery.ui.datepicker.jalali/scripts/jquery.ui.core.js"></script>
+    <script type="text/javascript" src="/AmadoWHApp/static/admin/jquery.ui.datepicker.jalali/scripts/jquery.ui.datepicker-cc.js"></script>
+    <script type="text/javascript" src="/AmadoWHApp/static/admin/jquery.ui.datepicker.jalali/scripts/calendar.js"></script>
+    <script type="text/javascript" src="/AmadoWHApp/static/admin/jquery.ui.datepicker.jalali/scripts/jquery.ui.datepicker-cc-fa.js"></script>
+    <link href="/AmadoWHApp/static/admin/jquery.ui.datepicker.jalali/themes/base/jquery-ui.min.css" type="text/css" media="all" rel="stylesheet" />
+    <link href="/AmadoWHApp/static/admin/css/main.css" type="text/css" media="all" rel="stylesheet" />
+    <link href="/AmadoWHApp/static/admin/css/vendor/select2/select2.css" type="text/css" media="screen" rel="stylesheet" />
+
+
+    <script>
+
+        $(document).ready(function(event){
+
+            $('.vjDateField').datepicker({
+                dateFormat: 'yy-mm-dd',
+                changeMonth: true,
+                changeYear: true,
+                showOn: 'both',
+                buttonImage: 'http://amadowh.ir/admin/AmadoWHApp/static/admin/jquery.ui.datepicker.jalali/themes/base/images/icon-calendar.svg',
+                buttonImageOnly: true,
+            //     minDate: $('.vjDateField').val(),
+            //     maxDate: '+30Y',
+            });
+            
+            
+
+            
+        })
+
+
+    </script>
+
+{% endblock %}

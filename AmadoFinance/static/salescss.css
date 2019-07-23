@@ -1,0 +1,19 @@
+.field-sales_tot_cash_cost,.column-sales_tot_cash_cost,.column-sales_tot_cash_cost:hover{
+    background-color: #8effbf !important;
+    border-color: #8effbf !important;
+}
+
+
+.column-remainder,.field-remainder,.field:hover{
+    background-color: #8effbf !important;
+    border-color: #8effbf !important;
+}
+
+/*#changelist-filter{*/
+/*    max-width: 10% !important;*/
+    
+/*}*/
+
+/*#changelist-form{*/
+/*    max-width: 90% !important;*/
+/*}*/

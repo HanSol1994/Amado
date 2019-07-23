@@ -1,0 +1,140 @@
+{% extends "admin/change_list.html" %}
+{% load i18n admin_static %}
+
+{% block result_list %}
+
+<div class="" style="margin:1%">
+    <a href='?status=registered'><span style="padding:5px;border-radius:5px;background: #fcf8e3;" ><i class="fas fa-clock"></i></span><span> ثبت شده/در انتظار تایید</span></a>
+    <a href='?status=confirmed'><span style="padding:5px;border-radius:5px;background: #d9edf7;" ><i class="fas fa-check-circle"></i></span><span> تایید شده/در انتظار پرداخت</span></a>
+    <a href='?status=paid'><span style="padding:5px;border-radius:5px;background: #dff0d8;" ><i class="fas fas fa-check-double"></i></span><span> پرداخت شده</span></a>
+    <a href='?status=rejected'><span style="padding:5px;border-radius:5px;background: #f2dede;" ><i class="fas fas fa-times-circle"></i></span><span> رد شده</span></a>
+    <span style="padding:5px;border-radius:5px;background: lightgray;" ><i class="fas fa-door-closed"></i></span><span> تسویه شده</span>
+    <span style="padding:5px;border-radius:5px;background: #f46242;" ><i class="fas fa-sync"></i></span><span> برگشت خورده</span>
+</div>
+{{ block.super }}
+{% endblock %}
+
+{% block breadcrumbs %}
+    {{ block.super }}
+
+    <div class="breadcrumbs">
+        <a style="margin:20px" href="../cashpayment/"><i class="fas fa-money-bill-alt"></i> پرداخت ها </a>
+        <a style="margin:20px" href="../fundpayment/"><i class="far fa-credit-card"></i> تنخواه ها </a>
+        <a style="margin:20px" href="../checkpayment/"><i class="fas fa-money-check"></i> چک ها </a>
+        <a style="margin:20px" href="../sales/"> <i class="fas fa-shopping-cart"></i> فروش ها </a>
+        <a style="margin:20px" href="../../AmadoAccounting/"> <i class="fas fa-user-circle"></i> حسابداری </a>
+    </div>
+
+{% endblock %}
+
+{% block extrahead %}
+
+    {{ block.super }}
+
+    <script type="text/javascript" src="/AmadoWHApp/static/admin/jquery.ui.datepicker.jalali/scripts/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="/AmadoWHApp/static/admin/jquery.ui.datepicker.jalali/scripts/jquery.ui.core.js"></script>
+    <script type="text/javascript" src="/AmadoWHApp/static/admin/jquery.ui.datepicker.jalali/scripts/jquery.ui.datepicker-cc.js"></script>
+    <script type="text/javascript" src="/AmadoWHApp/static/admin/jquery.ui.datepicker.jalali/scripts/calendar.js"></script>
+    <script type="text/javascript" src="/AmadoWHApp/static/admin/jquery.ui.datepicker.jalali/scripts/jquery.ui.datepicker-cc-fa.js"></script>
+    <link href="/AmadoWHApp/static/admin/jquery.ui.datepicker.jalali/themes/base/jquery-ui.min.css" type="text/css" media="all" rel="stylesheet" />
+    <link href="/AmadoWHApp/static/admin/css/main.css" type="text/css" media="all" rel="stylesheet" />
+    <link href="/AmadoWHApp/static/admin/css/vendor/select2/select2.css" type="text/css" media="screen" rel="stylesheet" />
+
+
+
+    <script>
+
+        $(document).ready(function(event){
+            
+            $("#result_list").append(
+                "<tr>" +
+                    "<td></td>"+
+                    "<td></td>"+
+                    "<td></td>"+
+                    "<td></td>"+
+                    "<th style='text-align:center'>جمع</th>"+
+                    "<th style='text-align:center;'>{{ cl.tomato_count }}</th>" +
+                    "<td></td>"+
+                    "<td></td>"+
+                    "<td></td>"+
+                    "<td></td>"+
+                    "<td></td>"+
+                "</tr>")
+
+            if (window.location.href.includes('payment_due_date__gte=')){
+                str = window.location.href.split('payment_due_date__gte=')[1].split('&')[0]
+                if (str != '1300-01-01')
+                    $("#id_from_date").val(str)
+            }
+
+            if (window.location.href.includes('payment_due_date__lte=')){
+                str = window.location.href.split('payment_due_date__lte=')[1].split('&')[0]
+                if (str != '1500-12-29')
+                    $("#id_to_date").val(str)
+            }
+
+
+            $("#create_report").click(function (event) {
+
+
+
+                from_date = $("#id_from_date").val()
+                to_date = $("#id_to_date").val()
+
+                if (from_date == ''){
+                    from_date = '1300-01-01'
+                }
+                if (to_date == ''){
+                    to_date = '1500-12-29'
+                }
+
+{#                window.location = window.location#}
+                str = window.location.href.split('cashpayment')
+                str = str[0]+'cashpayment?'
+
+
+                str += 'payment_due_date__gte='+from_date+'&payment_due_date__lte='+to_date
+
+                window.location = str
+
+
+
+            })
+
+            $('.vjDateField').datepicker({
+                dateFormat: 'yy-mm-dd',
+                changeMonth: true,
+                changeYear: true,
+                showOn: 'both',
+                buttonImage: 'http://amadowh.ir/AmadoWHApp/static/admin/jquery.ui.datepicker.jalali/themes/base/images/icon-calendar.svg',
+                buttonImageOnly: true,
+            //     minDate: $('.vjDateField').val(),
+            //     maxDate: '+30Y',
+            });
+
+
+
+
+        })
+
+
+    </script>
+
+{% endblock %}
+
+
+
+{% block object-tools %}
+    {{ block.super }}
+    <div style="margin:2% 2%">
+
+        <label for="id_from_date">از تاریخ: </label>
+        <input type="text" name="last_price_date" value="" class="vjDateField" size="10" required="" id="id_from_date">
+    &nbsp;&nbsp;
+        <label for="id_to_date">تا تاریخ: </label>
+        <input type="text" name="last_price_date" value="" class="vjDateField" size="10" required="" id="id_to_date">
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <input type="submit" value="ایجاد گزارش" id="create_report"/>
+
+    </div>
+{% endblock object-tools %}
